@@ -9,14 +9,14 @@ export class ConfirmPaymentPage implements OnInit {
   total = 0;
   data = [
     {
-      amount: 5,
-      quantity: 2,
-      title: 'Restaurant'
+      amount: 50,
+      quantity: 3,
+      title: '30 minute yoga class'
     },
     {
-      amount: 10,
-      quantity: 3,
-      title: 'Restaurant two'
+      amount: 3,
+      quantity: 1,
+      title: 'Service Fee'
     }
   ];
   constructor() { }

@@ -22,7 +22,7 @@ export class ProfilePictureService  {
     // and just mapping the changes from loaded entity onto the default in the map entity
     // Note: set the default profile picture url always
     // so we don't see a broken image when waiting to load
-    user.profilePictureUrl = 'http://modexenergy.com/wp-content/themes/modex_wp/img/avatar.png';
+    user.profilePictureUrl = '../../../assets/images/userProfile.png';
 
     if (user.profilePictureId == null) {
         return;

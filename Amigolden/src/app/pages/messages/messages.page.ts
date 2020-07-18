@@ -39,9 +39,9 @@ export class MessagesPage extends PageBase implements OnInit {
     public config = new ListConfiguration<Message>(
       (pagingInfo: PagingInfo) =>
       this.baseProvider.getDynamicList(this.filterByConversationId,
-        pagingInfo.pageSize, pagingInfo.pageNumber).pipe(map(message => {
-            this.setOwnerClassPrefix(message);
-            return message;
+        pagingInfo.pageSize, pagingInfo.pageNumber).pipe(map(messages => {
+            messages.forEach(m => this.setOwnerClassPrefix(m));
+            return messages;
         })),
       {
         isReverse: true
@@ -78,14 +78,14 @@ export class MessagesPage extends PageBase implements OnInit {
         return moment(date).fromNow();
     }
 
-    setOwnerClassPrefix(entity: any) {
+    setOwnerClassPrefix(entity: Message) {
 
         if (!entity) {
             return;
         }
 
         this.identityProvider.getCurrentUser().then(u => {
-            entity.owner = (u.id.toString() === entity.senderUserId ? 'mine' : 'other');
+            entity["$$isOwner"] = u.id === entity.senderUserId;
         }).catch(err => {
             console.log(err);
         });

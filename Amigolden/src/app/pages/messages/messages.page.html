@@ -11,10 +11,7 @@
 <ion-footer class="ion-no-border">
   <div class="align-items-center">
     <div class="w-80 message-div">
-      <textarea
-        placeholder="Type a message"
-        [(ngModel)]="messageText"
-        >
+      <textarea placeholder="Type a message" [(ngModel)]="messageText">
       </textarea>
     </div>
     <div class="w-20 ion-text-center">
@@ -27,36 +24,23 @@
       </ion-button>
     </div>
   </div>
-  <!-- <ion-toolbar color="whatsapp" class="messages-page-footer" position="bottom">
-    <ion-input [(ngModel)]="messageText" class="message-editor" placeholder="Type a message"></ion-input>
-    <ion-buttons end>
-      <button ion-button icon-only *ngIf="messageText" class="message-editor-button" (click)="sendTextMessage()">
-        <ion-icon name="send"></ion-icon>
-      </button>
-
-      <button ion-button icon-only *ngIf="!messageText" class="message-editor-button">
-        <ion-icon name="mic"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-toolbar> -->
 </ion-footer>
 
 <ng-template #itemTemplate let-entity="entity">
-  <div
-  class="message"
-  [class.right]="(entity.owner === 'mine')"
-  [class.left]="(entity.owner !== 'mine')"
-  [class.ion-text-right]="true">
+  <div class="message"
+  [class.right]="!entity.$$isOwner"
+  [class.left]="entity.$$isOwner"
+  [class.ion-text-right]="!entity.$$isOwner">
 <!-- <img
  class="user-img"
- [src]="(msg.actionUser === userService.currentUser.id ? userService.currentUser.image : meta.otherUser.image)  || '../../../assets/default.jpg'"> -->
+ [src]="(msg.actionUser === userService.currentUser.id ? userService.currentUser.image : meta.otherUser.image)  || '../../../assets/images/userProfile.png'"> -->
 <div class="msg-detail">
- <p class="line-breaker" >{{'My Message'}}</p>
+ <p class="line-breaker" >{{entity.messageText}}</p>
  <!-- <div class="msg-content">
  </div> -->
  <div class="msg-info font-size-0-7">
    <p>
-     {{getCreated('2020-07-13T00:26:40.147')}}
+     {{getCreated(entity.created)}}
    </p>
  </div>
 </div>

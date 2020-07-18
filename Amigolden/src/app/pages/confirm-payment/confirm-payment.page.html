@@ -15,17 +15,19 @@
           <ion-label>Invoice</ion-label>
         </div>
         <div class="align-item-center ion-padding">
-          <div class="w-50 ion-text-left">
+          <div class="w-40 ion-text-left">
             <ion-label>Event</ion-label>
           </div>
-          <div class="w-20 ion-text-center">Of</div>
-          <div class="w-40 ion-text-right">Total</div>
+          <div class="w-30 ion-text-center">Quantity</div>
+          <div class="w-30 ion-text-right">Total</div>
         </div>
         <div class="align-item-center ion-padding" *ngFor="let item of data">
-          <div class="w-50 ion-text-left">
+          <div class="w-40 ion-text-left">
             <ion-label>{{item?.title}}</ion-label>
           </div>
-          <div class="w-20 ion-text-center">{{item.amount |currency}}</div>
+          <div class="w-30 ion-text-center">
+            <ion-label *ngIf="item.quantity > 1" >({{item.quantity}} x {{item.amount |currency}})</ion-label>
+          </div>
           <div class="w-30 ion-text-right">{{(item.amount * item.quantity) |currency}}</div>
         </div>
         <div class="ion-text-right ion-padding">
