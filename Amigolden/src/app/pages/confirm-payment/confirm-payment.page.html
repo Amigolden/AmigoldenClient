@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Confirm Payment</ion-title>
+  </ion-toolbar>
+</ion-header> 
+
+<ion-content>
+  <ion-grid class="display-flax">
+    <ion-row class="ion-align-items-center flex-grow-1 ion-padding" >
+      <ion-col size-sm="6" offset-sm="3" size="12" class="ion-no-padding invoice">
+        <div class="ion-text-center ion-padding header-content">
+          <ion-label>Invoice</ion-label>
+        </div>
+        <div class="align-item-center ion-padding">
+          <div class="w-40 ion-text-left">
+            <ion-label>Event</ion-label>
+          </div>
+          <div class="w-30 ion-text-center">Quantity</div>
+          <div class="w-30 ion-text-right">Total</div>
+        </div>
+        <div class="align-item-center ion-padding" *ngFor="let item of data">
+          <div class="w-40 ion-text-left">
+            <ion-label>{{item?.title}}</ion-label>
+          </div>
+          <div class="w-30 ion-text-center">
+            <ion-label *ngIf="item.quantity > 1" >({{item.quantity}} x {{item.amount |currency}})</ion-label>
+          </div>
+          <div class="w-30 ion-text-right">{{(item.amount * item.quantity) |currency}}</div>
+        </div>
+        <div class="ion-text-right ion-padding">
+          <ion-label>Total: {{total |currency}}</ion-label>
+        </div>
+        <div class="ion-text-center ion-padding">
+          <ion-button expand="block" color="primary">
+            <ion-label>
+              Total Event Amount is: {{total |currency}}
+            </ion-label>
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

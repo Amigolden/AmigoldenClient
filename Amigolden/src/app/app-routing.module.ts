@@ -78,6 +78,7 @@ const routes: Routes = [
     loadChildren: './pages/messages/messages.module#MessagesPageModule',
     canActivate: [AuthGuard]
   },
+  { path: 'confirm-payment', loadChildren: './pages/confirm-payment/confirm-payment.module#ConfirmPaymentPageModule' },
 ];
 
 @NgModule({

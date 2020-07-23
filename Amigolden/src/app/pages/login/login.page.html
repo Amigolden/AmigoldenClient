@@ -1,24 +1,30 @@
 <ion-content padding class="login-background no-scroll">
-	<h3 class="login-tag">Unleash yourself</h3>
+	<!-- <h3 class="login-tag">Unleash yourself</h3> -->
+	<ion-grid class="display-flax">
+		<ion-row class="ion-align-items-center flex-grow-1">
+			<ion-col size="12" size-sm="6" offset-sm="3" class="ion-padding">
+				<form #loginForm method="post" class="form-horizontal" [action]="loginUrl">
+					<ion-input name="provider" type="hidden" [value]="provider"></ion-input>
+					<ion-item lines="none" class="select-item global-height font-size-0-8">
+						<ion-label color="medium">Login Type</ion-label>
+						<ion-select [(ngModel)]="provider" name="provider" placeholder="Select Type" >
+						  <ion-select-option value="StripeConnect" >
+						  	StripeConnect
+						  </ion-select-option>
+						  <ion-select-option value="Google">
+							Google
+						  </ion-select-option>
+						</ion-select>
+					  </ion-item>
+					  <ion-item>
+						  <ion-input name="entryCode" type="text" placeholder="Entry Code">
+						  </ion-input>
+					  </ion-item>
+					  <div>
+							<ion-button (click)="loginForm.submit()" expand="block" size="large" color="dark">Login</ion-button>
+					  </div>
+				</form>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
 </ion-content>
-<ion-footer no-shadow>
-	<ion-toolbar no-shadow position="bottom">
-		<form #form method="post" class="form-horizontal" [action]="loginUrl">
-			<div>
-			  <p>
-          		<button ion-button block (click)="loginProvider = 'StripeConnect';" title="Log in using Stripe">
-				  	Stripe Connect
-				</button>
-				<button ion-button block (click)="loginProvider = 'Google';" title="Log in using Stripe">
-					Google
-				</button>
-				<button ion-button block (click)="form.submit()" title="Log in using Stripe">
-					Login 
-				</button>
-				<input type="hidden" name="provider" [value]="loginProvider">
-				<input type="text" name="entryCode" placeholder="Entry Code">
-				</p>
-			</div>
-		</form>
-	</ion-toolbar>
-</ion-footer>

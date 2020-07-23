@@ -2,8 +2,8 @@ import { NgZone, ViewChild, Component, OnInit } from '@angular/core';
 import moment from 'moment';
 import { EditOptions } from '../../models/edit-options';
 import { Conversation } from '../../models/conversation';
-import { Message } from '../../models/Message';
-import { ODataDynamicFilterBuilder, ODataPropertyPath } from '../../models/OData/Filter/ts-odata-dynamic-filter';
+import { Message } from 'src/app/models/message';
+import { ODataDynamicFilterBuilder, ODataPropertyPath } from 'src/app/models/odata/filter/ts-odata-dynamic-filter';
 import { Identity } from 'src/app/services/identity/identity.service';
 import { MessagesService } from 'src/app/services/endpoints/messages.service';
 import { HubServiceBase } from 'src/app/services/hubs/hub-base.service';
@@ -39,9 +39,9 @@ export class MessagesPage extends PageBase implements OnInit {
     public config = new ListConfiguration<Message>(
       (pagingInfo: PagingInfo) =>
       this.baseProvider.getDynamicList(this.filterByConversationId,
-        pagingInfo.pageSize, pagingInfo.pageNumber).pipe(map(message => {
-            this.setOwnerClassPrefix(message);
-            return message;
+        pagingInfo.pageSize, pagingInfo.pageNumber).pipe(map(messages => {
+            messages.forEach(m => this.setOwnerClassPrefix(m));
+            return messages;
         })),
       {
         isReverse: true
@@ -78,14 +78,14 @@ export class MessagesPage extends PageBase implements OnInit {
         return moment(date).fromNow();
     }
 
-    setOwnerClassPrefix(entity: any) {
+    setOwnerClassPrefix(entity: Message) {
 
         if (!entity) {
             return;
         }
 
         this.identityProvider.getCurrentUser().then(u => {
-            entity.$$owner = (u.id.toString() === entity.senderUserId ? 'mine' : 'other');
+            entity["$$isOwner"] = u.id === entity.senderUserId;
         }).catch(err => {
             console.log(err);
         });
