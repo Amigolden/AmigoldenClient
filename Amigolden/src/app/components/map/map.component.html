@@ -1,4 +1,4 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
         <ion-button color="dark" (click)="closeModal()">
@@ -7,47 +7,91 @@
     </ion-buttons>
    <ion-title>Pick a location</ion-title> 
   </ion-toolbar>
-</ion-header>
-<div>
-  <div class="form-group">
+</ion-header> -->
+  <!-- <div class="form-group">
       <label>Enter address</label>
       <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
-  </div>
+  </div> -->
+  <ion-item>
+    <ion-input type="text" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location"
+      autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search></ion-input>
+  </ion-item>
   <ion-button *ngIf="!isCreating && options.canCreate" (click)="create()"> Create </ion-button>
   <ion-button *ngIf="isCreating" (click)="save()"> Select </ion-button>
   <ion-button *ngIf="isCreating" (click)="cancel()"> Cancel </ion-button>
-  <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+  <div class="section">
+    <div class="agm-map" #map>
+      <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [style.height.px]="height">
       <ng-container *ngIf="!isCreating">
-        <agm-marker color="Blue" *ngFor="let locationGroup of locationEntitiesMap" (markerClick)="clickedMarker(locationGroup)" 
-          [latitude]="locationGroup?.location?.latitude" [longitude]="locationGroup?.location?.longitude">
-          
-          <agm-snazzy-info-window [closeWhenOthersOpen]="true">
+        <!-- [iconUrl]="icon" -->
+        <agm-marker color="Blue" [latitude]="locationGroup?.location?.latitude" [longitude]="locationGroup?.location?.longitude" 
+          *ngFor="let locationGroup of locationEntitiesMap" (markerClick)="clickedMarker(locationGroup)">
+          <!-- TODO: padding should be in scss file -->
+          <agm-snazzy-info-window [closeWhenOthersOpen]="true"  [maxWidth]="400" [maxHeight]="600" padding="0 0 0 0">
               <ng-template> 
-                  <ng-template [ngTemplateOutlet]="infoWindowTemplate || defaultTemplate" [ngTemplateOutletContext]="{group: locationGroup}">
+                  <ng-template [ngTemplateOutlet]="infoWindowTemplate || defaultTemplate" 
+                    [ngTemplateOutletContext]="{group: locationGroup}">
                   </ng-template>
                   <ng-template #defaultTemplate let-group="group"> 
                     <ng-container *ngIf="group">
-                        <ion-slides>
-                          <ion-slide  *ngFor="let data of group.data">
-                              <ion-label>Location: </ion-label>
-                              <ion-label>{{group.location.name}} </ion-label>
-                              <ion-button (click)="selectLocation(group.location, data)">
-                                {{options?.selectLabel || 'Select'}}
-                              </ion-button>
+                      <ion-row class="container">
+                        <img class="image" src="https://ionicframework.com/docs/demos/api/card/madison.jpg" />
+                        <ion-avatar class="overlay">
+                          <img src="assets/images/userProfile.png" />
+                        </ion-avatar>
+                      </ion-row>
+                        <div class="map-icon left"
+                          (click)="slidePrev(theSlides)">
+                          <ion-icon name="arrow-back"></ion-icon>
+                        </div>
+                        <div class="map-icon right"
+                          (click)="slideNext(theSlides)">
+                          <ion-icon name="arrow-forward"></ion-icon>
+                        </div>
+                        <ion-slides [options]="slideOptions" (ionSlideDidChange)="slideChanged()" #theSlides>
+                          <ion-slide *ngFor="let data of group.data">
+                            <ion-grid>
+                              <ion-row>
+                                <ion-col>
+                                  <ion-label>
+                                    <p>
+                                      <strong>{{ data.name }}</strong> On
+                                      <strong> {{ data.meetTime | date: 'mediumDate' }}</strong>
+                                       at
+                                      <strong>{{ group.location.name }}</strong> for
+                                      <strong>{{data.eventCostInCents === 0 ? 0 : data.eventCostInCents / 100  | currency }}</strong>
+                                    </p>
+                                  </ion-label>
+                                </ion-col>
+                              </ion-row>
+      
+                              <ion-row>
+                                <ion-col class="ion-text-end">
+                                  <ion-button color="primary" class="enroll">Enroll</ion-button>
+                                </ion-col>
+                              </ion-row>
+                            </ion-grid>
                           </ion-slide>
                         </ion-slides>
-                    </ng-container>
+                      </ng-container>
                   </ng-template>
               </ng-template>
           </agm-snazzy-info-window>
         </agm-marker>
-    </ng-container>
-      <agm-marker *ngIf="isCreating" [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+        <agm-marker *ngIf="isCreating" [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
         (dragEnd)="markerDragEnd($event)">
       </agm-marker>
+    </ng-container>
   </agm-map>
-
-  <h5>Address: {{address}}</h5>
-  <div>Latitude: {{latitude}}</div>
-  <div>Longitude: {{longitude}}</div>
+</div>
+<div id="footer">
+  <ion-grid>
+    <ion-row class="ion-align-items-end">
+      <ion-col>
+        <h6 *ngIf="this.address.length > 0" class="ion-margin-horizontal">
+          Address: {{ address + ', ' + town + ', ' + state }}
+        </h6>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </div>

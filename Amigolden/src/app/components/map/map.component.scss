@@ -1,3 +1,57 @@
-agm-map {
-    height: 300px;
+// agm-map {
+//     height: 300px;
+// }
+
+.scroll {
+    min-height: 100% !important;
+}
+
+.section {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+.agm-map {
+    flex: 1;
+}
+#footer {
+    flex: 0 1 40px;
+    // min-height: 10px;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+}
+
+.image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.map-icon {
+    font-size: 25px;
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    color: rgba(0, 255, 255, .6);
+    &.left {
+        left: 16px;
+    }
+
+    &.right {
+        right: 16px;
+    }
+}
+
+.overlay{
+    position: absolute;
+    top: 10%;
+    right:10%
+}
+
+.enroll {
+    margin-bottom: 2vh;
 }

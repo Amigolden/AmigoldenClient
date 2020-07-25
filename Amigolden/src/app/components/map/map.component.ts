@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform, IonSlides } from '@ionic/angular';
 import { Location } from 'src/app/models/location';
 import { MapOptions } from 'src/app/models/map/map-options';
 import * as _ from 'underscore';
@@ -32,10 +32,16 @@ export class MapComponent implements OnInit {
   latitude = 40.7362942;
   longitude = -73.9921495;
   zoom: number;
-  address: string;
+  address = '';
+  town = '';
+  state = '';
+  i = 0;
   isCreating = false;
   locationEntitiesMap = new Array<{location: Location, data: Array<any>}>();
   private geoCoder;
+
+  @ViewChild(IonSlides, { static: false }) slides: IonSlides;
+
 
   @ViewChild('search', {static: false })
   public searchElementRef: ElementRef;
@@ -44,8 +50,11 @@ export class MapComponent implements OnInit {
   constructor(
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
-    protected modalController: ModalController
-  ) { }
+    protected modalController: ModalController,
+    protected platform: Platform
+  ) { 
+    this.height = platform.height() - 200;
+  }
 
   resolveMapData() {
     this.options.getData(this.latitude, this.longitude, this.withinMiles).subscribe(entities => {
@@ -138,6 +147,21 @@ export class MapComponent implements OnInit {
     }
   }
 
+  height = 0;
+  slideChanged() {
+    this.slides.getActiveIndex().then((index) => {
+      this.i = index;
+    });
+  }
+
+  // slider functions
+
+  slidePrev(slides) {
+    slides.slidePrev();
+  }
+  slideNext(slides) {
+    slides.slideNext();
+  }
 
   markerDragEnd($event: MouseEvent) {
     console.log($event);
@@ -151,9 +175,12 @@ export class MapComponent implements OnInit {
       console.log(results);
       console.log(status);
       if (status === 'OK') {
-        if (results[0]) {
+        let result = results[0];
+        if (result) {
           this.zoom = 12;
-          this.address = results[0].formatted_address;
+          this.address = result.address_components[0].short_name;
+          this.town = result.address_components[1].short_name;
+          this.state = result.address_components[2].short_name;
         } else {
           window.alert('No results found');
         }
