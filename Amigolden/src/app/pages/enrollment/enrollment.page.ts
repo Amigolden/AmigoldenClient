@@ -58,7 +58,7 @@ export class EnrollmentPage extends EntityPageBase<Meeting> implements OnInit {
     cardInfo.zip = stripeTokenResponse.card.address_zip;
     cardInfo.expirationYear = stripeTokenResponse.card.exp_year;
     cardInfo.expirationMonth = stripeTokenResponse.card.exp_month;
-    this.stripePayments.createCustomer(cardInfo).subscribe(_ => this.hasExistingCard = true);
+    this.stripePayments.createCustomer(cardInfo).subscribe(_ => this.enroll(this.eventCostInCents));
   }
 
   enroll(eventCostInCents) {

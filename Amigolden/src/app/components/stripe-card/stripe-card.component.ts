@@ -48,13 +48,13 @@ export class StripeCardComponent implements AfterViewInit, OnDestroy {
     this.cd.detectChanges();
   }
 
-  async onSubmit(form: NgForm) {
-    const { token, error } = await stripe.createToken(this.card);
-
-    if (error) {
-      console.log('Something is wrong:', error);
-    } else {
-      this.cardToken.emit(token);
-    }
+  checkout() {
+    stripe.createToken(this.card).then((result) => {
+      if (result.error) {
+        console.log('Something is wrong:', result.error);
+      } else {
+        this.cardToken.emit(result.token);
+      }
+    });
   }
 }

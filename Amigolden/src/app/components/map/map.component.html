@@ -1,17 +1,3 @@
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-        <ion-button color="dark" (click)="closeModal()">
-          <ion-icon name="arrow-back"></ion-icon>
-        </ion-button>
-    </ion-buttons>
-   <ion-title>Pick a location</ion-title> 
-  </ion-toolbar>
-</ion-header> -->
-  <!-- <div class="form-group">
-      <label>Enter address</label>
-      <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
-  </div> -->
   <ion-item>
     <ion-input type="text" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location"
       autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search></ion-input>
@@ -67,7 +53,7 @@
       
                               <ion-row>
                                 <ion-col class="ion-text-end">
-                                  <ion-button color="primary" class="enroll">Enroll</ion-button>
+                                  <ion-button color="primary" class="enroll" (click)="selectLocation(group.location, data)">Enroll</ion-button>
                                 </ion-col>
                               </ion-row>
                             </ion-grid>
